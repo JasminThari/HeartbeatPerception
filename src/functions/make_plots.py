@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import math
+import heartpy as hp
 
 def plot_invalid_RR_segments(ECG_data_dict, RR_Peaks_dict, invalid_intervals, peaks_dict, sample_rate=2048):
     # Collect all invalid RR intervals into a list with associated keys and indices
@@ -74,3 +75,8 @@ def plot_invalid_RR_segments(ECG_data_dict, RR_Peaks_dict, invalid_intervals, pe
 
     plt.tight_layout()
     plt.show()
+
+def plot_ecg_with_peaks(ECG_data_dict, sample_rate=2048, cols=2):
+    for idx, (key, signal) in enumerate(ECG_data_dict.items()):
+        wd, m = hp.process(signal, sample_rate=sample_rate)        
+        hp.plotter(wd, m, show=True, title=f'Subject {key}', figsize=(16, 3))
