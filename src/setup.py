@@ -3,6 +3,7 @@ from psychopy import visual, core, event
 import csv
 import os
 import pandas as pd
+import ast
 
 ## --------------------- Set up the environment  --------------------- ##
 
@@ -75,11 +76,13 @@ for video_file in video_files:
     video_path = os.path.join(video_folder, video_file)
     
     # Get the stim_times file
-    stim_times_df = pd.read_csv('assignments/test.csv')
+    stim_times_df = pd.read_csv('assignments/final_assignment_with_peaks.csv')
     
     # Load the stim_times
-    stim_times = stim_times_df[stim_times_df['video_id'] == video_base]['HeartPeaksInSeconds']
-    
+    # Extract the stim_times as a list
+    stim_times_str = stim_times_df.query("ID==@video_base")['Stimuli_Seconds'].values[0]
+    stim_times = [float(i) for i in stim_times_str.split(',')]
+        
     # Load the video
     video = visual.MovieStim(win, video_path, loop=False)
     
@@ -147,7 +150,7 @@ for video_file in video_files:
     else:
         response = response_keys[0]  # Get the first key pressed
         print(f"User pressed: {response}")
-        data_writer.writerow([video_file, response])
+        data_writer.writerow([video_base, response])
     
     # Optionally, add a brief pause between videos
     core.wait(1.0)

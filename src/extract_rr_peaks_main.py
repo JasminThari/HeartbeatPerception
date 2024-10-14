@@ -108,9 +108,9 @@ def get_heart_peaks(row, peaks_segments_dict):
     return []
 
 # Apply the function to each row of the dataframe
-final_assignments['Stimuli_Seconds'] = final_assignments.apply(lambda row: get_heart_peaks(row, peaks_segments_dict).get('adjusted_seconds', []), axis=1)
-final_assignments['Peaks_Idx'] = final_assignments.apply(lambda row: get_heart_peaks(row, peaks_segments_dict).get('peaks', []), axis=1)
-final_assignments['Peaks_Seconds'] = final_assignments.apply(lambda row: get_heart_peaks(row, peaks_segments_dict).get('seconds', []), axis=1)
+final_assignments['Stimuli_Seconds'] = final_assignments.apply(lambda row: ','.join(map(str, get_heart_peaks(row, peaks_segments_dict).get('adjusted_seconds', []))), axis=1)
+final_assignments['Peaks_Idx'] = final_assignments.apply(lambda row: ','.join(map(str, get_heart_peaks(row, peaks_segments_dict).get('peaks', []))), axis=1)
+final_assignments['Peaks_Seconds'] = final_assignments.apply(lambda row: ','.join(map(str, get_heart_peaks(row, peaks_segments_dict).get('seconds', []))), axis=1)
 #%%
 final_assignments['ID'] = final_assignments.apply(lambda row: f"Pair_{row.name + 1}", axis=1)
 final_assignments.to_csv('assignments/final_assignment_with_peaks.csv', index=False)
