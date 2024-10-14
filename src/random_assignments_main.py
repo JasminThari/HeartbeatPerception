@@ -117,7 +117,7 @@ while True:
     
 df_side_assignment.to_csv('assignments/participants_side_assignment.csv', index=False)
 
-##### $ Randomly assign heartbeats to pairs while ensuring equal distribution #####
+##### Randomly assign heartbeats to pairs while ensuring equal distribution #####
 
 def assign_heartbeat(row):
     # Get available participants
