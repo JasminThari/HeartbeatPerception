@@ -3,7 +3,18 @@ from psychopy import visual, core, event
 import csv
 import os
 import pandas as pd
-import ast
+import random
+import argparse  
+
+## --------------------- Parse command-line arguments  --------------------- ##
+
+parser = argparse.ArgumentParser(description='Run the PsychoPy experiment.')
+parser.add_argument('participant', type=str, help='Participant ID')
+parser.add_argument('num', type=int, help='Experiment number')
+args = parser.parse_args()
+
+participant = args.participant
+num = args.num
 
 ## --------------------- Set up the environment  --------------------- ##
 
@@ -20,7 +31,7 @@ square = visual.Rect(
     height=0.3,
     fillColor='black',
     lineColor='black',
-    pos=(0, -0.8)  # Position the square as needed
+    pos=(0, -0.5)  # Position the square as needed
 )
 
 # Create the text stimuli for response screen
@@ -56,19 +67,34 @@ right_arrow_text = visual.TextStim(
     bold=True
 )
 
+# Create the break text stimulus
+break_text = visual.TextStim(
+    win,
+    text="Break",
+    font='Arial', 
+    color='white',
+    pos=(0, 0),    
+    height=0.12,    
+    bold=True
+)
+
 # Open a CSV file to save responses
-data_file = open('responses.csv', 'w', newline='')
+data_file = open(f'Responses_Participant_{participant}.csv', 'w', newline='')
 data_writer = csv.writer(data_file)
 
 # Write header
 data_writer.writerow(['Video', 'Response'])
 
+# Initialize video count
+video_count = 0
+
 ## --------------------- Load the videos and stim_times --------------------- ##
 
-video_folder = '../Data/Video/'  # Adjust the path as necessary
+video_folder = f'../Data/Video/Experiment_{num}/'  # Adjust the path as necessary
 
 # Get list of video files
 video_files = [f for f in os.listdir(video_folder) if f.endswith('.mp4')]
+random.shuffle(video_files)
 
 # Process each video
 for video_file in video_files:
@@ -84,7 +110,7 @@ for video_file in video_files:
     stim_times = [float(i) for i in stim_times_str.split(',')]
         
     # Load the video
-    video = visual.MovieStim(win, video_path, loop=False)
+    video = visual.MovieStim(win, video_path, loop=False, size=(1440, 900))
     
     # Reset the global clock
     globalClock.reset()
@@ -151,6 +177,22 @@ for video_file in video_files:
         response = response_keys[0]  # Get the first key pressed
         print(f"User pressed: {response}")
         data_writer.writerow([video_base, response])
+    
+    # Increment video count
+    video_count += 1
+
+    # Check if a break is needed after every 33 videos
+    if video_count % 33 == 0 and video_count != 0:
+        # Display break screen
+        break_text.draw()
+        win.flip()
+        # Wait until user presses 'space' or 'escape'
+        break_keys = event.waitKeys(keyList=['space', 'escape'])
+        if 'escape' in break_keys:
+            print("Escape key pressed during break. Exiting.")
+            break
+        # Optionally, clear events
+        event.clearEvents()
     
     # Optionally, add a brief pause between videos
     core.wait(1.0)
