@@ -19,7 +19,7 @@ num = args.num
 ## --------------------- Set up the environment  --------------------- ##
 
 # Initialize the window
-win = visual.Window(fullscr=True, color='black', checkTiming=False)
+win = visual.Window(fullscr=True, color='black', checkTiming=True)
 
 # Initialize the global clock
 globalClock = core.Clock()
@@ -31,7 +31,7 @@ square = visual.Rect(
     height=0.3,
     fillColor='black',
     lineColor='black',
-    pos=(0, -0.5)  # Position the square as needed
+    pos=(0, 0.39) # -0.5 # Position the square as needed
 )
 
 # Create the text stimuli for response screen
