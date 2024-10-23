@@ -19,7 +19,7 @@ num = args.num
 ## --------------------- Set up the environment  --------------------- ##
 
 # Initialize the window
-win = visual.Window(fullscr=True, color='black', checkTiming=True)
+win = visual.Window(fullscr=True, color='black', checkTiming=True, useFBO=True)
 
 # Initialize the global clock
 globalClock = core.Clock()
@@ -90,16 +90,23 @@ video_count = 0
 
 ## --------------------- Load the videos and stim_times --------------------- ##
 
-video_folder = f'../Data/Video/Experiment_{num}/'  # Adjust the path as necessary
+video_folder = f'..\\..\\Experiment_{num}'  # Adjust the path as necessary
 
 # Get list of video files
 video_files = [f for f in os.listdir(video_folder) if f.endswith('.mp4')]
 random.shuffle(video_files)
 
-# Process each video
+video_objects = []
 for video_file in video_files:
-    video_base = os.path.splitext(video_file)[0]
     video_path = os.path.join(video_folder, video_file)
+    video_objects.append(visual.MovieStim(win, video_path, loop=False, size=(1440, 900), noAudio=True))
+    print(f"Loaded video: {video_file}")
+
+
+# Process each video
+for i, video in enumerate(video_objects):
+    video_base = os.path.splitext(video_file)[0]
+    video_file = video_files[i]
     
     # Get the stim_times file
     stim_times_df = pd.read_csv('assignments/final_assignment_with_peaks.csv')
@@ -110,7 +117,8 @@ for video_file in video_files:
     stim_times = [float(i) for i in stim_times_str.split(',')]
         
     # Load the video
-    video = visual.MovieStim(win, video_path, loop=False, size=(1440, 900))
+    video = video_objects[i]
+    core.wait(1.2)
     
     # Reset the global clock
     globalClock.reset()
@@ -123,7 +131,8 @@ for video_file in video_files:
     # Main loop: Continue until the video finishes
     while not video.isFinished:
         t = globalClock.getTime()
-        
+        if t == 1:
+            print(f"Main loop started")
         # Draw the current frame of the video
         video.draw()
         
@@ -157,7 +166,9 @@ for video_file in video_files:
         if keys:
             print("Escape key pressed. Exiting.")
             break
-    
+    video.stop()
+    video.seek(0)
+    del video
     # After the loop ends (video is finished), present the response screen
     # Draw the text stimuli
     left_arrow_text.draw()
@@ -195,7 +206,7 @@ for video_file in video_files:
         event.clearEvents()
     
     # Optionally, add a brief pause between videos
-    core.wait(1.0)
+    #core.wait(1.0)
     
 # Close the data file
 data_file.close()
