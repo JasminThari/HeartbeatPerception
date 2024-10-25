@@ -16,6 +16,7 @@ parser.add_argument('fullname', type=str, help='Full name')
 args = parser.parse_args()
 
 participant = args.participant
+gender = args.gender
 full_name = args.fullname
 num = args.num
 
@@ -93,7 +94,7 @@ break_text = visual.TextStim(
 )
 
 # Open a CSV file to save responses
-data_file = open(f'Responses_Participant_{participant}_{full_name}.csv', 'w', newline='')
+data_file = open(f'Responses_Experiment_{num}_ParticipantID_{participant}_{full_name}_Gender_{gender}.csv', 'w', newline='')
 data_writer = csv.writer(data_file)
 
 # Write header
