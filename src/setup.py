@@ -36,6 +36,17 @@ square = visual.Rect(
     pos=(0, 0.39) # -0.5 # Position the square as needed
 )
 
+# Create the break text stimulus
+start_text = visual.TextStim(
+    win,
+    text="Press space to start the exoeriment",
+    font='Arial', 
+    color='white',
+    pos=(0, 0),    
+    height=0.12,    
+    bold=True
+)
+
 # Create the text stimuli for response screen
 left_arrow_text = visual.TextStim(
     win,
@@ -104,6 +115,14 @@ for video_file in video_files:
     video_objects.append(visual.MovieStim(win, video_path, loop=False, size=(1440, 900), noAudio=True))
     print(f"Loaded video: {video_file}")
 
+# Display the start text and wait for the user to press space
+start_text.draw()
+win.flip()
+start_keys = event.waitKeys(keyList=['space', 'escape'])
+if 'escape' in start_keys:
+    print("Escape key pressed. Exiting.")
+    win.close()
+    core.quit()
 
 # Process each video
 for i, video in enumerate(video_objects):
