@@ -16,6 +16,7 @@ parser.add_argument('fullname', type=str, help='Full name')
 args = parser.parse_args()
 
 participant = args.participant
+full_name = args.fullname
 num = args.num
 
 ## --------------------- Set up the environment  --------------------- ##
@@ -39,7 +40,7 @@ square = visual.Rect(
 # Create the break text stimulus
 start_text = visual.TextStim(
     win,
-    text="Press space to start the exoeriment",
+    text="Press space to start the experiment",
     font='Arial', 
     color='white',
     pos=(0, 0),    
@@ -92,7 +93,7 @@ break_text = visual.TextStim(
 )
 
 # Open a CSV file to save responses
-data_file = open(f'Responses_Participant_{participant}.csv', 'w', newline='')
+data_file = open(f'Responses_Participant_{participant}_{full_name}.csv', 'w', newline='')
 data_writer = csv.writer(data_file)
 
 # Write header
