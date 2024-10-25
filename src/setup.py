@@ -9,8 +9,10 @@ import argparse
 ## --------------------- Parse command-line arguments  --------------------- ##
 
 parser = argparse.ArgumentParser(description='Run the PsychoPy experiment.')
-parser.add_argument('participant', type=str, help='Participant ID')
 parser.add_argument('num', type=int, help='Experiment number')
+parser.add_argument('participant', type=str, help='Participant ID')
+parser.add_argument('gender', type=str, help='Gender m/f')
+parser.add_argument('fullname', type=str, help='Full name')
 args = parser.parse_args()
 
 participant = args.participant
@@ -90,7 +92,7 @@ video_count = 0
 
 ## --------------------- Load the videos and stim_times --------------------- ##
 
-video_folder = f'..\\..\\Experiment_{num}'  # Adjust the path as necessary
+video_folder = f'../Data/Video/Experiment_{num}'  # Adjust the path as necessary
 
 # Get list of video files
 video_files = [f for f in os.listdir(video_folder) if f.endswith('.mp4')]
