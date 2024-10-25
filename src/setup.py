@@ -215,7 +215,7 @@ for i, video in enumerate(video_objects):
     video_count += 1
 
     # Check if a break is needed after every 33 videos
-    if video_count % 33 == 0 and video_count != 0:
+    if video_count % 34 == 0 and video_count != 0:
         # Display break screen
         break_text.draw()
         win.flip()
