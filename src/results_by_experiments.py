@@ -1,10 +1,11 @@
+#%%
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 
 
-file_path = 'Data/Results/results.csv'
+file_path = '../Data/Results/results.csv'
 data_raw = pd.read_csv(file_path)
 
 experiment_1_data = data_raw[data_raw['Experiment_Num'] == 1]
@@ -62,6 +63,8 @@ def create_heatmap(data, experiment_num):
     plt.show()
 
 # For each experiment
-create_heatmap(experiment_1_data, experiment_num=1)
-# create_heatmap(experiment_2_data, experiment_num=2)
+#create_heatmap(experiment_1_data, experiment_num=1)
+create_heatmap(experiment_2_data, experiment_num=2)
 # create_heatmap(experiment_3_data, experiment_num=3)
+
+#%%
