@@ -16,6 +16,7 @@ for filename in os.listdir(folder_path):
         
         file_path = os.path.join(folder_path, filename)
         df = pd.read_csv(file_path)
+        df['trial_num'] = df.index + 1
         df.rename(columns={'Video': 'ID'}, inplace=True)
         
         # Add metadata
@@ -37,7 +38,7 @@ df_results = pd.merge(df_actuals, results_df, on='ID')
 df_results.rename(columns={'ID': 'Pair_ID'}, inplace=True)
 
 #%% 
-cols = ['Participant_ID', 'Gender', 'Experiment_Num', 'Pair_ID', 'Response', 'Actuals', 'Participant_x', 'Segment_x', 'Participant_y', 'Segment_y', 'Left',
+cols = ['Participant_ID', 'trial_num', 'Gender', 'Experiment_Num', 'Pair_ID', 'Response', 'Actuals', 'Participant_x', 'Segment_x', 'Participant_y', 'Segment_y', 'Left',
        'Right', 'HeartBeat', 'Stimuli_Seconds', 'Peaks_Idx', 'Peaks_Seconds']
 df_results = df_results[cols]
 df_results.sort_values(by=['Participant_ID'], inplace=True, ignore_index=True)
