@@ -122,4 +122,7 @@ if bartlett_p > 0.05:
 else:
     print("Variances are not equal (reject H0)")
 
+
+
+
 # %%
