@@ -15,6 +15,7 @@ for filename in os.listdir(folder_path):
         gender = filename_list[7].replace('.csv', '')
         
         file_path = os.path.join(folder_path, filename)
+        print(f'Processing {file_path}')
         df = pd.read_csv(file_path)
         df['trial_num'] = df.index + 1
         df.rename(columns={'Video': 'ID'}, inplace=True)
