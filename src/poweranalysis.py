@@ -8,7 +8,7 @@ analysis = FTestAnovaPower()
 # Define parameters
 effect_size = 0.8  # Medium effect size (Cohen's f)
 alpha = 0.05        # Significance level
-power = 0.80        # Desired power
+power = 0.8        # Desired power
 k_groups = 3        # Number of groups
 
 # Calculate the required sample size per group
@@ -26,7 +26,7 @@ import pingouin as pg
 power = pg.power_anova(eta_squared=0.175, 
                        k=3, 
                        alpha=0.05, 
-                       power=0.80, 
+                       power=0.9, 
                        n=None)
 
 print(f"Required sample size per group: {np.ceil(power)}")

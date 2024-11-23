@@ -82,13 +82,31 @@ else:
     print("Fail to reject the null hypothesis: No significant difference between the experiments.")
 
 
-# %%
-# Perform One-Way ANOVA using Statsmodels
+# %% Perform One-Way ANOVA using Statsmodels
 model = ols('Proportion ~ C(Experiment_Num)', data=df_proportions).fit()
 anova_table = sm.stats.anova_lm(model, typ=2)
+print("ANOVA Table:")
 print(anova_table)
 
-# Shapiro-Wilk test for each group
+#%% Q-Q plot for residuals
+sns.set(style="whitegrid", palette="muted", color_codes=True)
+# 1. Q-Q Plot for Residuals
+fig, ax = plt.subplots(figsize=(8, 6))
+sm.qqplot(model.resid, line='s', ax=ax, markersize=5)
+ax.set_title('Q-Q Plot of ANOVA Residuals')
+sns.despine()
+plt.show()
+# 2. Residuals Distribution Plot
+plt.figure(figsize=(8, 6))
+sns.histplot(model.resid, kde=True, bins=20, color='skyblue')
+plt.title('Distribution of Residuals')
+plt.xlabel('Residuals')
+plt.ylabel('Frequency')
+sns.despine()
+plt.show()
+
+
+#%% Shapiro-Wilk test for each group
 for name, group in df_proportions.groupby('Experiment_Num'):
     stat, p = stats.shapiro(group['Proportion'])
     print(f'Experiment {name} - Shapiro-Wilk test: Statistics={stat:.3f}, p={p:.3f}')
@@ -97,14 +115,8 @@ for name, group in df_proportions.groupby('Experiment_Num'):
     else:
         print('Sample does not look Gaussian (reject H0)')
 
-# Q-Q plot for residuals
-sm.qqplot(model.resid)
-plt.title('Q-Q Plot of ANOVA Residuals')
-plt.show()
 
-
-# %%
-# Levene’s Test
+# %% Levene’s Test
 levene_stat, levene_p = stats.levene(*groups)
 print(f"Levene’s Test: Statistics={levene_stat:.3f}, p={levene_p:.3f}")
 
@@ -113,16 +125,4 @@ if levene_p > 0.05:
 else:
     print("Variances are not equal (reject H0)")
 
-# Alternatively, Bartlett’s Test (more sensitive to normality)
-bartlett_stat, bartlett_p = stats.bartlett(*groups)
-print(f"Bartlett’s Test: Statistics={bartlett_stat:.3f}, p={bartlett_p:.3f}")
 
-if bartlett_p > 0.05:
-    print("Variances are equal (fail to reject H0)")
-else:
-    print("Variances are not equal (reject H0)")
-
-
-
-
-# %%
