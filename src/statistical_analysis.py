@@ -60,7 +60,7 @@ for experiment in df_proportions['Experiment_Num'].unique():
         print("No significant difference from chance performance.")
 
     # Calculate Cohen's d
-    mean_difference = np.mean(proportions) - 0.5
+    mean_difference = abs(np.mean(proportions) - 0.5)
     std_dev = np.std(proportions, ddof=1)
     cohen_d = mean_difference / std_dev
 
