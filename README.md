@@ -19,10 +19,10 @@ This repository contains the necessary code to conduct, analyze, and visualize t
 ## Description of Key Scripts
 
 ### `run_experiment.py`
-This script is used to execute the psychological experiment in **PsychoPy**. It requires specific video stimuli and EEG signal data, which are not included in this repository to ensure compliance with GDPR. Researchers interested in accessing these files can contact us directly to request access.
+This script is used to execute the experiment in **PsychoPy**. It requires specific video stimuli and EEG signal data, which are not included in this repository to ensure compliance with GDPR. 
 
 ### `power_analysis.py`
-This script performs a **power analysis** to determine the required sample size for the experiment. The analysis is crucial for ensuring statistically significant results.
+This script performs a **power analysis** to determine the required sample size for the experiment. 
 
 ### `statistical_analysis.py`
 This script computes the **dependent variable**, conducts statistical analyses, and performs hypothesis testing, including:
