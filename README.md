@@ -1,6 +1,6 @@
 # HeartbeatPerception
 
-This repository contains the necessary code to conduct, analyze, and visualize the results of a experiment. Below is an overview of the repository's structure and functionality.
+This repository contains the necessary code to conduct, analyze, and visualize the results of our experiment. Below is an overview of the repository's structure and functionality.
 
 ## Repository Structure
 
