@@ -2,26 +2,6 @@
 
 This repository contains the necessary code to conduct, analyze, and visualize the results of a experiment. Below is an overview of the repository's structure and functionality.
 
-.
-├── Data/
-│   ├── Answers/        # Contains answers provided by each participant
-│   ├── Results/        # Combined results merged with the correct responses
-├── src/
-│   ├── run_experiment.py       # Script to run the experiment using PsychoPy
-│   ├── power_analysis.py       # Script to perform power analysis and calculate sample size
-│   ├── statistical_analysis.py # Script for statistical computations and hypothesis testing
-│   ├── ...                     # Other scripts for additional analysis and plotting
-
-
-
-Here's a structured README for your GitHub repository:
-
----
-
-# Experiment Analysis Repository
-
-This repository contains the necessary code and resources to conduct, analyze, and visualize the results of a psychological experiment. Below is an overview of the repository's structure and functionality.
-
 ## Repository Structure
 
 ```
