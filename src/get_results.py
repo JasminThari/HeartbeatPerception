@@ -12,7 +12,7 @@ for filename in os.listdir(folder_path):
         filename_list = filename.split('_')
         participant_id = filename_list[4]
         experiment_num = filename_list[2]
-        gender = filename_list[7].replace('.csv', '')
+        gender = filename_list[6].replace('.csv', '')
         
         file_path = os.path.join(folder_path, filename)
         print(f'Processing {file_path}')

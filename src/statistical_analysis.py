@@ -1,4 +1,4 @@
-#%%
+#%% Import necessary libraries
 import pandas as pd
 import numpy as np
 from scipy import stats
@@ -7,6 +7,7 @@ import seaborn as sns
 import statsmodels.api as sm
 from statsmodels.formula.api import ols
 
+#%% Load the data and calculate dependent variable
 # Load the data
 df = pd.read_csv('../Data/Results/results.csv')
 
@@ -43,6 +44,28 @@ plt.show()
 # Summary statistics
 print(df_proportions.groupby('Experiment_Num')['Proportion'].describe())
 
+#%% Parametric tests
+
+# Shapiro-Wilk test for each group
+for name, group in df_proportions.groupby('Experiment_Num'):
+    stat, p = stats.shapiro(group['Proportion'])
+    print(f'Experiment {name} - Shapiro-Wilk test: Statistics={stat:.3f}, p={p:.3f}')
+    if p > 0.05:
+        print('Sample looks Gaussian (fail to reject H0)')
+    else:
+        print('Sample does not look Gaussian (reject H0)')
+
+groups = [group["Proportion"].values for name, group in df_proportions.groupby("Experiment_Num")]
+
+# Levene’s Test
+levene_stat, levene_p = stats.levene(*groups)
+print(f"Levene’s Test: Statistics={levene_stat:.3f}, p={levene_p:.3f}")
+
+if levene_p > 0.05:
+    print("Variances are equal (fail to reject H0)")
+else:
+    print("Variances are not equal (reject H0)")
+
 #%% Perform one-sample t-test
 for experiment in df_proportions['Experiment_Num'].unique():
     print(f"Experiment {experiment}")
@@ -67,9 +90,6 @@ for experiment in df_proportions['Experiment_Num'].unique():
     print("Cohen's d:", cohen_d)
     print()
 #%% # Perform One-Way ANOVA
-groups = [group["Proportion"].values for name, group in df_proportions.groupby("Experiment_Num")]
-
-# Perform the ANOVA
 f_stat, p_val = stats.f_oneway(*groups)
 
 print("One-Way ANOVA results:")
@@ -104,25 +124,4 @@ plt.xlabel('Residuals')
 plt.ylabel('Frequency')
 sns.despine()
 plt.show()
-
-
-#%% Shapiro-Wilk test for each group
-for name, group in df_proportions.groupby('Experiment_Num'):
-    stat, p = stats.shapiro(group['Proportion'])
-    print(f'Experiment {name} - Shapiro-Wilk test: Statistics={stat:.3f}, p={p:.3f}')
-    if p > 0.05:
-        print('Sample looks Gaussian (fail to reject H0)')
-    else:
-        print('Sample does not look Gaussian (reject H0)')
-
-
-# %% Levene’s Test
-levene_stat, levene_p = stats.levene(*groups)
-print(f"Levene’s Test: Statistics={levene_stat:.3f}, p={levene_p:.3f}")
-
-if levene_p > 0.05:
-    print("Variances are equal (fail to reject H0)")
-else:
-    print("Variances are not equal (reject H0)")
-
-
+#%%
